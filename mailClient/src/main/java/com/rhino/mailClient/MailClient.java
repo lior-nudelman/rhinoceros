@@ -53,7 +53,7 @@ public class MailClient {
 
 	private void showAllMails(Folder folder,String path) {
 		try {
-			Message msg[] = folder.getMessages();
+			Message msg[] = folder.getMessages(); //add time filter and filter for attachments
 			showMessages(msg,path+"/"+folder.getName()+"/");
 
 		} catch (MessagingException e) {
