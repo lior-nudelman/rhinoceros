@@ -15,7 +15,7 @@ public class MailClientTest {
 		MailClient mailClient = new MailClient();
 		mailClient.readAccount("imap.gmail.com", "rhino.test.email@gmail.com","mokavanil", "C:/tmp/rhino/");
 		// IMAP host for yahoo.
-		// store.connect("imap.mail.yahoo.com", "<username>", "<password>");
+		// store.connect("imap.mail.yahoo.com", "<username>", "<password>"); 
 
 	}
 

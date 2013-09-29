@@ -26,7 +26,7 @@ public class MailClient {
 
 	public void readAccount(String host,String user,String password,String path) throws MessagingException{
 		Properties props = System.getProperties();
-		props.setProperty("mail.store.protocol", "imaps");
+		props.setProperty("mail.store.protocol", "imaps");  
 
 		Session session = Session.getDefaultInstance(props, null);
 		Store store = session.getStore("imaps");
