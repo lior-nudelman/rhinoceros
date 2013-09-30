@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
 import javax.mail.BodyPart;
-import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -16,7 +16,9 @@ import javax.mail.Multipart;
 import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
-import javax.mail.search.FlagTerm;
+import javax.mail.search.ComparisonTerm;
+import javax.mail.search.ReceivedDateTerm;
+import javax.mail.search.SearchTerm;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -24,7 +26,7 @@ import org.apache.log4j.Logger;
 public class MailClient {
 	private static Logger logger = Logger.getLogger(MailClient.class); 
 
-	public void readAccount(String host,String user,String password,String path) throws MessagingException{
+	public void readAccount(String host,String user,String password,String path,Date date) throws MessagingException{
 		Properties props = System.getProperties();
 		props.setProperty("mail.store.protocol", "imaps");  
 
@@ -33,36 +35,27 @@ public class MailClient {
 		store.connect(host, user,password);
 		Folder inbox = store.getFolder("Inbox");//need to read all folders
 		
-		readFolder(inbox, path+"/"+user+"/");
+		readFolder(inbox, path+"/"+user+"/",date);
 	}
 	
-	private void readFolder(Folder folder,String path) throws MessagingException{
+	private void readFolder(Folder folder,String path,Date date) throws MessagingException{
 		folder.open(Folder.READ_ONLY);
-		showAllMails(folder,path);
+		showAllMails(folder,path,date);
 	}
 	
-	private void showUnreadMails(Folder folder,String path) {
+	private void showAllMails(Folder folder,String path,Date date) {
 		try {
-			FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
-			Message msg[] = folder.search(ft);
-			showMessages(msg,path+"/"+folder.getName()+"/");
-		} catch (MessagingException e) {
-			System.out.println(e.toString());
-		}
-	}
-
-	private void showAllMails(Folder folder,String path) {
-		try {
-			Message msg[] = folder.getMessages(); //add time filter and filter for attachments
+			SearchTerm newerThan = new ReceivedDateTerm(ComparisonTerm.GT, date);
+			Message msg[] = folder.search(newerThan); 
 			showMessages(msg,path+"/"+folder.getName()+"/");
 
 		} catch (MessagingException e) {
-			System.out.println(e.toString());
+			logger.error(e,e);
 		}
 	}
 
 	private void showMessages(Message msg[], String path) {
-		System.out.println("MAILS: " + msg.length);
+		logger.info("MAILS: " + msg.length);
 		createFolder(path);
 		for (Message message : msg) {
 			try {
@@ -90,7 +83,7 @@ public class MailClient {
 				}
 
 			} catch (Exception e) {
-				System.out.println("No Information");
+				logger.error(e,e);
 			}
 		}
 	}
