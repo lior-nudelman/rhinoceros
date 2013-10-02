@@ -24,7 +24,7 @@ public abstract class AbstractAgent implements TaskAgentInterface{
 		limmiter = new TimeFrameCounter(getTimeFrame());
 	}
 	
-	public void setVeriteService(UserAttributesServiceManagerInterface veriteService) {
+	public void setUserService(UserAttributesServiceManagerInterface veriteService) {
 		this.userService = veriteService;
 	}
 	

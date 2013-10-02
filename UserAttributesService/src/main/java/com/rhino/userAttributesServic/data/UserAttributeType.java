@@ -2,9 +2,11 @@ package com.rhino.userAttributesServic.data;
 
 public enum UserAttributeType {
     MAIL(1000,"mail"),
+    MAIL_TYPE(1010,"mailType"),
     FIRST_NAME(1020,"firstName"),
     LAST_NAME(1030,"lastName"),
     NAME(1040,"name"),
+    FOLDER_PATH(1050,"folderPath"),
     MAIL_USERNAME(2000,"MAIL_USERNAME"),
     MAIL_PASSWORD(2010,"MAIL_PASSWORD"),
     

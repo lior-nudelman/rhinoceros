@@ -3,7 +3,6 @@ package com.rhino.taskManager;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 
 import com.rhino.taskManager.agent.TaskAgentInterface;
 import com.rhino.taskManager.error.TypeNotFoundException;
@@ -15,8 +14,8 @@ public interface TaskManagerInterface {
 
 	public void finishworkingOnJob(String type,Collection<UserDataInterface> job) throws TypeNotFoundException, IOException;
 
-	public Map<String, TaskAgentInterface> getWorkersMap() ;
+	public Map<String, TaskAgentInterface> getAgentMap() ;
 
-	public void setWorkersMap(Map<String, TaskAgentInterface> workersMap) ;
+	public void setAgentMap(Map<String, TaskAgentInterface> workersMap) ;
 
 }

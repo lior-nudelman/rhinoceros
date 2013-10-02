@@ -13,5 +13,5 @@ public interface UserDataInterface {
 	
 	public String getID();
 	
-	public void setID(String veriteID);
+	public void setID(String id);
 }
