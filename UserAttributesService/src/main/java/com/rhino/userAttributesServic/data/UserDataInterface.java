@@ -1,8 +1,9 @@
 package com.rhino.userAttributesServic.data;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public interface UserDataInterface {
+public interface UserDataInterface extends Serializable{
 	public Map<UserAttributeType, String> getUserAttributes();
 	
 	public void setUserAttributes(Map<UserAttributeType,String> attributes);

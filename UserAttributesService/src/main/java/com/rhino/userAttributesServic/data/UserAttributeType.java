@@ -2,16 +2,16 @@ package com.rhino.userAttributesServic.data;
 
 public enum UserAttributeType {
     MAIL(1000,"mail"),
-    MAIL_TYPE(1010,"mailType"),
+    MAIL_HOST(1010,"mailHost"),
     FIRST_NAME(1020,"firstName"),
     LAST_NAME(1030,"lastName"),
     NAME(1040,"name"),
     FOLDER_PATH(1050,"folderPath"),
-    MAIL_USERNAME(2000,"MAIL_USERNAME"),
-    MAIL_PASSWORD(2010,"MAIL_PASSWORD"),
-    
-    ERROR(8000,"ERROR"),
-    DEFAULT(9000,"DEFAULT"),
+    MAIL_USERNAME(2000,"mail_username"),
+    MAIL_PASSWORD(2010,"mail_password"),
+    DATE(3000,"date"),
+    ERROR(8000,"error"),
+    DEFAULT(9000,"default"),
     ;
     private Integer numericCode;
     private String stringCode;

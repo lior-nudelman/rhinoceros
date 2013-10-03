@@ -17,14 +17,14 @@
 		<property name="hessian2" value="true" />
 	</bean>
 
-	<bean id="mailClientAgent" class="com.rhino.taskManager.agent.MailClientAgent" >
+	<bean id="mailClientAgent" class="com.rhino.taskManager.agent.MailClientAgent" init-method="init">
 		<property name="accessSize" value="1" />
 		<property name="timeFrame" value="1000000000" />
 		<property name="totalSize" value="1" />
 		<property name="userService" ref="userAttributesServiceManager" />
 	</bean>
 	
-	<bean id="TaskManager" class="com.rhino.taskManager.TaskManagerImpl">
+	<bean id="taskManager" class="com.rhino.taskManager.TaskManagerImpl">
 		<property name="agentMap">
 			<map>
 				<entry key="MAIL" value-ref="mailClientAgent" />

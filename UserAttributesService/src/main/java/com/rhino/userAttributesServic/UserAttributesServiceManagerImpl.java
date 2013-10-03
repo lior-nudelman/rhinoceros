@@ -24,7 +24,8 @@ public class UserAttributesServiceManagerImpl implements
 		map.put(UserAttributeType.MAIL_PASSWORD, "mokavanil");
 		map.put(UserAttributeType.MAIL_USERNAME, "rhino.test.email@gmail.com");
 		map.put(UserAttributeType.FOLDER_PATH, "C:/tmp/rhino/");
-		map.put(UserAttributeType.MAIL_TYPE, "imap.gmail.com");
+		map.put(UserAttributeType.MAIL_HOST, "imap.gmail.com");
+		map.put(UserAttributeType.DATE, ""+(System.currentTimeMillis()-(24*60*60*1000)));
 		return ret;
 	}
 

@@ -25,7 +25,7 @@ import javax.mail.search.SearchTerm;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
-public class MailClient {
+public class MailClient implements MailClientInterface {
 	private static Logger logger = Logger.getLogger(MailClient.class);
 
 	public void readAccount(String host, String user, String password,

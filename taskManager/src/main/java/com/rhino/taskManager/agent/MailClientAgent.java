@@ -11,7 +11,7 @@ public class MailClientAgent extends AbstractAgent {
 
 	@Override
 	public String getSQL() {
-		return "";
+		return "The will be the SQL";
 	}
 
 }
