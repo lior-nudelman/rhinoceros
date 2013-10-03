@@ -5,6 +5,8 @@ import java.util.Map;
 
 public class UserDataImpl implements UserDataInterface {
 
+	private static final long serialVersionUID = 1L;
+	
 	private Map<UserAttributeType, String> attributes = new HashMap<UserAttributeType, String>();
 	private Object data = null;
 	private String id = null;
