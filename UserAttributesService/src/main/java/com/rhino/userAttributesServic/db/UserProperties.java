@@ -15,7 +15,7 @@ public class UserProperties {
 	private int id;
 	
 	@Column(name="USER_ID")
-	private String veriteID;
+	private String userID;
 	
 	@Column(name="TYPE")
 	private String type;
@@ -34,12 +34,12 @@ public class UserProperties {
 		this.id = id;
 	}
 
-	public String getVeriteID() {
-		return veriteID;
+	public String getUserID() {
+		return userID;
 	}
 
-	public void setVeriteID(String veriteID) {
-		this.veriteID = veriteID;
+	public void setUserID(String userID) {
+		this.userID = userID;
 	}
 
 	public String getType() {

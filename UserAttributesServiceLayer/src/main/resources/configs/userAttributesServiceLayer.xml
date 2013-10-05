@@ -38,4 +38,9 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
+	<bean id="userManager"
+		class="com.rhino.userAttributesServic.UserManagerImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
 </beans>

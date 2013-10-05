@@ -129,12 +129,12 @@ public class UserStatusDao {
 		}
 	}
 
-	public void update(UserStatus UserStatus){
-		session.merge(UserStatus);
+	public void update(UserStatus userStatus){
+		session.merge(userStatus);
 	}
 	
-	public void save(UserStatus UserStatus){
-		session.save(UserStatus);
+	public void save(UserStatus userStatus){
+		session.save(userStatus);
 	}
 
 	public int initStatus(boolean status){
