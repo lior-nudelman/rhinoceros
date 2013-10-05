@@ -1,10 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.rhino</groupId>
-  <artifactId>UserAttributesService</artifactId>
-  <version>1.0.0.0-SNAPSHOT</version>
-  <name>UserAttributesService</name>
-  <description>UserAttributesService</description>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.rhino</groupId>
+	<artifactId>UserAttributesService</artifactId>
+	<version>1.0.0.0-SNAPSHOT</version>
+	<name>UserAttributesService</name>
+	<description>UserAttributesService</description>
 
 	<dependencies>
 		<!-- Core utilities used by other modules. Define this if you use Spring 
@@ -115,6 +116,12 @@
 			<version>${org.springframework.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-ldap</artifactId>
+			<version>3.0.6.RELEASE</version>
+		</dependency>
+
 		<!-- java mail client -->
 		<dependency>
 			<groupId>javax.mail</groupId>
@@ -134,11 +141,46 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.16</version>
 		</dependency>
-
+		<!-- Hibernet -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<!-- postgres -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.2-1002-jdbc4</version>
+		</dependency>
+		<!-- appche commons -->
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<!-- slf4j -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
 	</dependencies>
-	<!-- Shared version number properties -->
+
 	<properties>
 		<org.springframework.version>3.2.0.RELEASE</org.springframework.version>
+		<hibernate.version>3.5.4-Final</hibernate.version>
+		<slf4j.version>1.5.8</slf4j.version>
 	</properties>
 
 </project>
