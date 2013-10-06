@@ -11,7 +11,7 @@ public class MailClientAgent extends AbstractAgent {
 
 	@Override
 	public String getSQL() {
-		return "The will be the SQL";
+		return "select v from UserStatus v where v.dataSourceType = 'MAIL' and v.onProcess = false order by v.date";
 	}
 
 }
