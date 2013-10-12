@@ -115,7 +115,7 @@
 			<version>${org.springframework.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- java mail client --> 
+		<!-- java mail client -->
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
@@ -134,11 +134,16 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.16</version>
 		</dependency>
-
+		<!-- commons -->
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
 	</dependencies>
 	<!-- Shared version number properties -->
 	<properties>
-		<org.springframework.version>3.2.0.RELEASE</org.springframework.version>
+		<org.springframework.version>3.2.4.RELEASE</org.springframework.version>
 	</properties>
 
 </project>

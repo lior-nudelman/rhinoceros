@@ -10,6 +10,7 @@ public enum UserAttributeType {
     MAIL_USERNAME(2000,"mail_username"),
     MAIL_PASSWORD(2010,"mail_password"),
     DATE(3000,"date"),
+    USER_PASSWORD(4000,"user_password"),
     ERROR(8000,"error"),
     DEFAULT(9000,"default"),
     ;
