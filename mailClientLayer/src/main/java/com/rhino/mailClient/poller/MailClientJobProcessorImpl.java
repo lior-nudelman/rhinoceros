@@ -26,12 +26,15 @@ public class MailClientJobProcessorImpl implements JobProcessorInterface {
 		String path = attributes.get(UserAttributeType.FOLDER_PATH);
 		String dateS = attributes.get(UserAttributeType.DATE);
 		Date date = new Date(Long.parseLong(dateS));
+		if(veriteData != null && veriteData instanceof Date){
+			date = (Date)veriteData;
+		}
 		try {
 			mailClient.readAccount(host, user, password, path, date);
 		} catch (MessagingException e) {
 			logger.error(e,e);
 		}
-		return "OK";
+		return new Date();
 	}
 
 	public MailClientInterface getMailClient() {
