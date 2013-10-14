@@ -71,18 +71,13 @@ public class MailClient implements MailClientInterface {
 				List<File> attachments = new ArrayList<File>();
 				Multipart multipart = (Multipart) message.getContent();
 
+				StringBuilder sb = new StringBuilder();
+				sb.append("<SUBJECT>\n").append(subject).append("\n</SUBJECT>\n<BODY>\n");
 				for (int i = 0; i < multipart.getCount(); i++) {
 					BodyPart bodyPart = multipart.getBodyPart(i);
-					if (!Part.ATTACHMENT.equalsIgnoreCase(bodyPart
-							.getDisposition())
-							&& !StringUtils.isNotBlank(bodyPart.getFileName())) {
+					if ( !StringUtils.isNotBlank(bodyPart.getFileName())) {
 						String content = bodyPart.getContent().toString();
-						if (content.length() > 1024) {
-							content = content.substring(0, 1024);
-						}
-						String data = "<SUBJECT>\n" + subject
-								+ "\n</SUBJECT>\n<BODY>\n" + content + "\n</BODY>\n";
-						writeFile(path + "/" + id + "-" + index + ".txt", data);
+						sb.append(content);
 
 					} else {
 						InputStream is = bodyPart.getInputStream();
@@ -97,6 +92,8 @@ public class MailClient implements MailClientInterface {
 						attachments.add(f);
 					}
 				}
+				sb.append("\n</BODY>\n");
+				writeFile(path + "/" + id + "-" + index + ".txt", sb.toString());
 
 			} catch (Exception e) {
 				logger.error(e, e);
