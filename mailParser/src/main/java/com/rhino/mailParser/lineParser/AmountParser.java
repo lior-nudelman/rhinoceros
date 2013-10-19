@@ -1,9 +1,16 @@
 package com.rhino.mailParser.lineParser;
 
+import com.rhino.mailParser.data.UserData;
+
 
 public class AmountParser implements LineParserInterface {
 
-	public Object parse(String line) {
+	String name = null;
+	public AmountParser(String name){
+		this.name = name;
+	}
+	
+	public void parse(String line,UserData data) {
 		int start = line.indexOf("$") + 1;
 		int end = line.indexOf(" ", start);
 		if (end < 0) {
@@ -14,11 +21,20 @@ public class AmountParser implements LineParserInterface {
 			amount = amount.substring(0,amount.length()-1);
 		}
 		try{
-			Float.parseFloat(amount);
+			float f = Float.parseFloat(amount);
+			data.setAmount(f);
 		}catch(Exception e){
-			return null;
+			
 		}
-		return amount;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	
 }

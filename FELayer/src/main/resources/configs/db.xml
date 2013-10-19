@@ -29,6 +29,7 @@
 		<property name="packagesToScan">
 			<list>
 				<value>com.rhino.userAttributesServic.db</value>
+				<value>com.rhino.mailParser.data</value>
 			</list>
 		</property>
 	</bean>
