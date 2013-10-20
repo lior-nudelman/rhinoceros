@@ -68,29 +68,14 @@ public class MailClient implements MailClientInterface {
 
 				int index = message.getMessageNumber();
 				String subject = message.getSubject();
-				List<File> attachments = new ArrayList<File>();
+				
 				Multipart multipart = (Multipart) message.getContent();
 
 				StringBuilder sb = new StringBuilder();
 				sb.append("<SUBJECT>\n").append(subject).append("\n</SUBJECT>\n<BODY>\n");
 				for (int i = 0; i < multipart.getCount(); i++) {
 					BodyPart bodyPart = multipart.getBodyPart(i);
-					if ( !StringUtils.isNotBlank(bodyPart.getFileName())) {
-						String content = bodyPart.getContent().toString();
-						sb.append(content);
-
-					} else {
-						InputStream is = bodyPart.getInputStream();
-						File f = new File(path + "/" + id + "-" + index + "."+ bodyPart.getFileName());
-						FileOutputStream fos = new FileOutputStream(f);
-						byte[] buf = new byte[4096];
-						int bytesRead;
-						while ((bytesRead = is.read(buf)) != -1) {
-							fos.write(buf, 0, bytesRead);
-						}
-						fos.close();
-						attachments.add(f);
-					}
+					savePart(bodyPart,sb,path + "/" + id + "-" + index);
 				}
 				sb.append("\n</BODY>\n");
 				writeFile(path + "/" + id + "-" + index + ".txt", sb.toString());
@@ -101,6 +86,34 @@ public class MailClient implements MailClientInterface {
 		}
 	}
 
+	private void savePart(BodyPart bodyPart,StringBuilder sb,String path) throws FileNotFoundException, MessagingException, IOException{
+		if(bodyPart.getContent() instanceof Multipart){
+			Multipart multipart = (Multipart)bodyPart.getContent();
+			for (int i = 0; i < multipart.getCount(); i++) {
+				BodyPart bodyPartT = multipart.getBodyPart(i);
+				savePart(bodyPartT,sb,path +"-"+ i);
+			}
+			return;
+		}
+		if ( !StringUtils.isNotBlank(bodyPart.getFileName())) {
+			String content = bodyPart.getContent().toString();
+			sb.append(content);
+
+		} else {
+			if(!bodyPart.getFileName().endsWith("pdf")){
+				return;
+			}
+			InputStream is = bodyPart.getInputStream();
+			File f = new File(path  + "."+ bodyPart.getFileName());
+			FileOutputStream fos = new FileOutputStream(f);
+			byte[] buf = new byte[4096];
+			int bytesRead;
+			while ((bytesRead = is.read(buf)) != -1) {
+				fos.write(buf, 0, bytesRead);
+			}
+			fos.close();
+		}
+	}
 	private void createFolder(String path) {
 		File file = new File(path);
 		if (!file.exists()) {
