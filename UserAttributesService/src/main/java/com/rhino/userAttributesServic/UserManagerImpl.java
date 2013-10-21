@@ -76,6 +76,9 @@ public class UserManagerImpl implements UserManagerInterface {
 		userPropertiesDAO.setSession(session);
 		List<UserProperties> userPropertiesList = userPropertiesDAO.getByUserID(id);
 		HashMap<UserAttributeType, String> userPropertiesMap = new HashMap<UserAttributeType, String>();
+		if(userPropertiesMap.size() ==0){
+			return null;
+		}
 		for(UserProperties v:userPropertiesList){
 			userPropertiesMap.put(UserAttributeType.valueOfStringCode(v.getType()), v.getValue());
 		}

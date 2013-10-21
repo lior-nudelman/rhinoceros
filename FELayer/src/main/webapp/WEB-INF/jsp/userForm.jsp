@@ -1,30 +1,49 @@
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html>
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
 <head>
-<style>
-.error {
-	color: #ff0000;
-}
-.errorblock{
-	color: #000;
-	background-color: #ffEEEE;
-	border: 3px solid #ff0000;
-	padding:8px;
-	margin:16px;
-}
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>One's Account - We tell you how much you pay</title>
+<meta name="description"
+	content="One's Account - We tell you how much you pay">
 
-</style>
+
+<link rel="stylesheet"
+	href="<c:url value="resources/css/normalize.css"/>" />
+<link rel="stylesheet" href="<c:url value="resources/css/main.css"/>" />
+
+<link rel="stylesheet"
+	href="<c:url value="resources/css/bootstrap-responsive.min.css"/>" />
+<link rel="stylesheet"
+	href="<c:url value="resources/css/bootstrap.min.css"/>" />
+<link rel="stylesheet" href="<c:url value="resources/css/style.css"/>" />
+
+<script src="<c:url value="resources/js/jquery-1.10.2.min.js" />"></script>
+<script src="<c:url value="resources/js/modernizr-2.6.2.min.js"/>"></script>
 </head>
 
 <body>
-<h2>Rhino Email service registration</h2>
+
+
 
 <form:form method="POST" commandName="userReg" action="userReg.do">
 
 <form:errors path="*" cssClass="errorblock" element="div"/>
 
 <table>
+<img src="<c:url value="/resources/images/logoSmall.png"/>">
+
+<h2>Rhino Email service registration</h2>
 <tr>
 <td>UserName : </td>
 <td><form:input path="userName" /></td>

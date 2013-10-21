@@ -4,46 +4,25 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.LinkedList;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import com.rhino.mailParser.betterParser.AddressWordParser;
+import com.rhino.mailParser.betterParser.AmountWordParser;
+import com.rhino.mailParser.betterParser.DateWordParser;
+import com.rhino.mailParser.betterParser.WordParserInterface;
 import com.rhino.mailParser.data.UserData;
 import com.rhino.mailParser.data.UserDataDAO;
-import com.rhino.mailParser.lineParser.AddressParser;
-import com.rhino.mailParser.lineParser.AmountParser;
-import com.rhino.mailParser.lineParser.DateParser;
-import com.rhino.mailParser.lineParser.LineParserInterface;
 
-public class MailParser implements MailParserInterface {
-	private static Logger logger = Logger.getLogger(MailParser.class);
+public class BetterMailParser  implements MailParserInterface{
 
-	private static HashMap<String, LineParserInterface> parsers = new HashMap<String, LineParserInterface>();
-	private static Set<String> parsersKeys = null;
+	private static Logger logger = Logger.getLogger(BetterMailParser.class);
 	private SessionFactory sessionFactory;
 	
-	static {
-		AmountParser amountParser = new AmountParser("Amount");
-		parsers.put("Amount", amountParser);
-		parsers.put("amount", amountParser);
-		parsers.put("balance is", amountParser);
-
-		DateParser dateParser = new DateParser("Date");
-		parsers.put("Date:", dateParser);
-		parsers.put("date:", dateParser);
-
-		AddressParser httpParser = new AddressParser("http://");
-		parsers.put("http", httpParser);
-		AddressParser httpsParser = new AddressParser("https://");
-		parsers.put("https", httpsParser);
-		
-		parsersKeys = parsers.keySet();
-	}
-
 	public void readAccount(String host, String user, String password,
 			String path, Date date) throws Exception {
 		path = path + "/" + user + "/" + "Inbox";
@@ -68,33 +47,42 @@ public class MailParser implements MailParserInterface {
 		tx.begin();
 		UserDataDAO userDataDAO = new UserDataDAO();
 		userDataDAO.setSession(session);
-		
 		for (File f : files) {
 			logger.info("File: " + f.getAbsolutePath());
+			LinkedList<WordParserInterface> parsers = new LinkedList<WordParserInterface>();
+			parsers.add(new AmountWordParser(new String[]{"of","is","for"},new String[]{"amount","balance","total"}));
+			parsers.add(new AmountWordParser(new String[]{"is"},new String[]{"account"}));
+			parsers.add(new AddressWordParser(null,new String[]{"http://","https://"}));
+			parsers.add(new DateWordParser(null,new String[]{"date"}));
+			
 			UserData data = new UserData();
 			data.setUserID(user);
 			try {
 				BufferedReader br = new BufferedReader(new FileReader(f));
 				String line;
 				while ((line = br.readLine()) != null) {
-					for (String word : parsersKeys) {
-						if (line.contains(word)) {
-							LineParserInterface parser = parsers.get(word);
-							parser.parse(line,data);							
+					line = line.replaceAll("<", " ");
+					String[] words = line.split(" ");
+					for(String word:words){
+						word = word.trim();
+						if(word.length()<2){
+							continue;
+						}
+						for(WordParserInterface parser:parsers){
+							parser.parse(word, data);
 						}
 					}
-				}
-				br.close();
-				if(data.getAmount()>0){
-					userDataDAO.save(data);
 				}
 			} catch (Exception e) {
 				logger.error(e, e);
 			}
+			if(data.getAmount()>-1){
+				userDataDAO.save(data);
+			}
 		}
-		
 		tx.commit();
 		session.close();
+		
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -104,5 +92,6 @@ public class MailParser implements MailParserInterface {
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
+
 
 }

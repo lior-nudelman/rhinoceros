@@ -33,7 +33,7 @@
 </head>
 
 <body>
-
+<img src="<c:url value="/resources/images/logoSmall.png"/>">
 	<h3>${message}</h3>
 	
 	
