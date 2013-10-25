@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,7 @@ import com.rhino.userAttributesServic.data.UserDataInterface;
 @RequestMapping("/userReg")
 public class UserController {
 
+	private static Logger logger = Logger.getLogger(UserController.class);
 	UserValidetor userValidator;
 	UserManagerInterface userManagerInterface;
 
@@ -69,7 +71,9 @@ public class UserController {
 		map.put(UserAttributeType.MAIL, u.getAddress());
 		map.put(UserAttributeType.MAIL_PASSWORD, u.getEmailPassword());
 		map.put(UserAttributeType.MAIL_USERNAME, u.getAddress());
-		map.put(UserAttributeType.FOLDER_PATH, "C:/tmp/rhino/");
+		String path = System.getProperty("rhino.home");
+		logger.info("The path for user "+u.getUserName()+" is "+path);
+		map.put(UserAttributeType.FOLDER_PATH, path);
 		map.put(UserAttributeType.MAIL_HOST, "imap.gmail.com");
 		map.put(UserAttributeType.DATE, ""
 				+ (System.currentTimeMillis() - (24 * 60 * 60 * 1000 * 365)));

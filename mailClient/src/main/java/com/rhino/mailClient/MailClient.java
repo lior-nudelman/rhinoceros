@@ -29,7 +29,7 @@ public class MailClient implements MailClientInterface {
 	private static Logger logger = Logger.getLogger(MailClient.class);
 
 	public void readAccount(String host, String user, String password,
-			String path, Date date) throws MessagingException {
+			String path, Date date,String sysUser) throws MessagingException {
 		Properties props = System.getProperties();
 		props.setProperty("mail.store.protocol", "imaps");
 
@@ -38,7 +38,7 @@ public class MailClient implements MailClientInterface {
 		store.connect(host, user, password);
 		Folder inbox = store.getFolder("Inbox");// need to read all folders
 
-		readFolder(inbox, path + "/" + user + "/", date);
+		readFolder(inbox, path + "/" + sysUser +"/"+ user + "/", date);
 	}
 
 	private void readFolder(Folder folder, String path, Date date)

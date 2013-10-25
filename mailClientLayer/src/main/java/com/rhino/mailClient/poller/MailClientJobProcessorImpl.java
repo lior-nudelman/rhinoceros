@@ -30,7 +30,7 @@ public class MailClientJobProcessorImpl implements JobProcessorInterface {
 			date = (Date)veriteData;
 		}
 		try {
-			mailClient.readAccount(host, user, password, path, date);
+			mailClient.readAccount(host, user, password, path, date,mainVeriteID);
 		} catch (MessagingException e) {
 			logger.error(e,e);
 		}

@@ -23,9 +23,10 @@ public class BetterMailParser  implements MailParserInterface{
 	private static Logger logger = Logger.getLogger(BetterMailParser.class);
 	private SessionFactory sessionFactory;
 	
+	//The user is the email address
 	public void readAccount(String host, String user, String password,
-			String path, Date date) throws Exception {
-		path = path + "/" + user + "/" + "Inbox";
+			String path, Date date,String sysUser) throws Exception {
+		path = path + "/" + sysUser +"/"+ user + "/" + "Inbox";
 		File file = new File(path); // need to be recursive
 		if (!file.exists()) {
 			logger.error("The path " + path + " do not exist");
@@ -56,7 +57,7 @@ public class BetterMailParser  implements MailParserInterface{
 			parsers.add(new DateWordParser(null,new String[]{"date"}));
 			
 			UserData data = new UserData();
-			data.setUserID(user);
+			data.setUserID(sysUser);
 			try {
 				BufferedReader br = new BufferedReader(new FileReader(f));
 				String line;

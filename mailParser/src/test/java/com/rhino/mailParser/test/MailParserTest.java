@@ -15,7 +15,7 @@ public class MailParserTest {
 		ApplicationContext appCtx = new ClassPathXmlApplicationContext("classpath:configs/mailParser.xml");
 		//MailParser parser = appCtx.getBean("mailParser",MailParser.class);
 		BetterMailParser parser = appCtx.getBean("betterMailParser",BetterMailParser.class);
-		parser.readAccount(null, "rhino.test.email@gmail.com", null, "C:/tmp/rhino/", null);
+		parser.readAccount(null, "rhino.test.email@gmail.com", null, "C:/tmp/rhino/", null,"aaa");
 	
 	}
 
