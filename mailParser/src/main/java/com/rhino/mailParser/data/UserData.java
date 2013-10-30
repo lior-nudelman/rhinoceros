@@ -26,6 +26,9 @@ public class UserData {
 	float amount=-1;
 	@Column(name="TRANSACTION_DATE")
 	long date=-1;
+	@Column(name="TRANSACTION_TYPE")
+	String type = null;
+	
 	
 	public String getUserID() {
 		return userID;
@@ -61,7 +64,14 @@ public class UserData {
 		if(this.from == null){
 			this.from = from;
 		}
+	}	
+	public String getType() {
+		return type;
 	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	
 	@Override
 	public String toString() {
 		return "ParserData [userID=" + userID + ", from=" + from + ", amount="

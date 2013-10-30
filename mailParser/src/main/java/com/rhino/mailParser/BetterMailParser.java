@@ -44,11 +44,6 @@ public class BetterMailParser  implements MailParserInterface{
 			return;
 		}
 		
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		tx.begin();
-		UserDataDAO userDataDAO = new UserDataDAO();
-		userDataDAO.setSession(session);
 		for (File f : files) {
 			logger.info("File: " + f.getAbsolutePath());
 			LinkedList<WordParserInterface> parsers = new LinkedList<WordParserInterface>();
@@ -83,12 +78,20 @@ public class BetterMailParser  implements MailParserInterface{
 				logger.error(e, e);
 			}
 			if(data.getAmount()>-1){
-				userDataDAO.save(data);
+				try{
+					Session session = sessionFactory.openSession();
+					UserDataDAO userDataDAO = new UserDataDAO();
+					userDataDAO.setSession(session);
+					Transaction tx = session.beginTransaction();
+					tx.begin();
+					userDataDAO.save(data);
+					tx.commit();
+					session.close();
+				}catch(Exception e){
+					logger.error(e,e);
+				}
 			}
 		}
-		tx.commit();
-		session.close();
-		
 	}
 
 	public LinkedList<String> split(String word){
