@@ -13,6 +13,7 @@ import org.hibernate.Transaction;
 
 import com.rhino.mailParser.betterParser.AddressWordParser;
 import com.rhino.mailParser.betterParser.AmountWordParser;
+import com.rhino.mailParser.betterParser.AmountWordParserMustHaveSkipWord;
 import com.rhino.mailParser.betterParser.DateWordParser;
 import com.rhino.mailParser.betterParser.WordParserInterface;
 import com.rhino.mailParser.data.UserData;
@@ -51,11 +52,11 @@ public class BetterMailParser  implements MailParserInterface{
 		for (File f : files) {
 			logger.info("File: " + f.getAbsolutePath());
 			LinkedList<WordParserInterface> parsers = new LinkedList<WordParserInterface>();
-			parsers.add(new AmountWordParser(new String[]{"of","is","for"},new String[]{"amount","balance","total"}));
-			parsers.add(new AmountWordParser(new String[]{"is"},new String[]{"account"}));
-			parsers.add(new AddressWordParser(null,new String[]{"http://","https://"}));
-			parsers.add(new DateWordParser(null,new String[]{"date"}));
-			
+			parsers.add(new AmountWordParser(new String[]{"of","is","for","us"},new String[]{"amount","balance","total","payment"}));
+			parsers.add(new AmountWordParserMustHaveSkipWord(new String[]{"is"},new String[]{"account"}));
+			parsers.add(new AddressWordParser(null,new String[]{"http","https"}));
+			parsers.add(new DateWordParser(null,new String[]{"date"},"EEEEEEEEEEE MMMMMMMMMMMM dd yyyy",4));
+			parsers.add(new DateWordParser(null,new String[]{"date"},"MMMMMMMMMMMM dd yyyy",3));
 			UserData data = new UserData();
 			data.setUserID(sysUser);
 			try {
@@ -69,11 +70,15 @@ public class BetterMailParser  implements MailParserInterface{
 						if(word.length()<2){
 							continue;
 						}
-						for(WordParserInterface parser:parsers){
-							parser.parse(word, data);
+						LinkedList<String> splitWords = split(word);
+						for(String splitWord:splitWords){
+							for(WordParserInterface parser:parsers){
+								parser.parse(splitWord, data);
+							}
 						}
 					}
 				}
+				br.close();
 			} catch (Exception e) {
 				logger.error(e, e);
 			}
@@ -86,6 +91,33 @@ public class BetterMailParser  implements MailParserInterface{
 		
 	}
 
+	public LinkedList<String> split(String word){
+		char c[] = word.toCharArray();
+		int x=0;
+		LinkedList<String> tmp = new LinkedList<String>();
+		for(int i=0;i<c.length-1;i++){
+			if(c[i]=='.' || c[i+1] =='.'){
+				continue;
+			}
+			if((c[i]>='!' && c[i]<'A' && c[i+1]>='A' && c[i+1]<='z') || (c[i]>='A' && c[i]<='z' && c[i+1]>='!' && c[i+1]<'A')){
+				String s = word.substring(x, i+1);
+				if(s.length()>1){
+					tmp.add(s);
+				}
+				x=i+1;
+			}
+		}
+		if(x>0){
+			String s = word.substring(x, word.length());
+			if(s.length()>1){
+				tmp.add(s);
+			}
+		}else{
+			tmp.add(word);
+		}
+		return tmp;
+	}
+	
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}

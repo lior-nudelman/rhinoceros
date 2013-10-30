@@ -1,20 +1,20 @@
 package com.rhino.mailParser.betterParser;
 
 import org.apache.log4j.Logger;
-import org.hibernate.engine.TwoPhaseLoad;
 
 import com.rhino.mailParser.data.UserData;
 
-public class AddressWordParser implements WordParserInterface {
+public class AmountWordParserMustHaveSkipWord implements WordParserInterface {
 
-	private static Logger logger = Logger.getLogger(AddressWordParser.class);
+	private static Logger logger = Logger.getLogger(AmountWordParserMustHaveSkipWord.class);
 	private String[] skipWords = null;
 	private String[] acceptWords = null;
-
+	
 	boolean trigger = false;
 	boolean done = false;
-	int counter =0;
-	public AddressWordParser(String[] skipWords,String[] acceptWords){
+	boolean skiped = false;
+	
+	public AmountWordParserMustHaveSkipWord(String[] skipWords,String[] acceptWords){
 		this.acceptWords = acceptWords;
 		this.skipWords = skipWords;
 	}
@@ -23,24 +23,36 @@ public class AddressWordParser implements WordParserInterface {
 		if(done){
 			return;
 		}
-		if(counter ==1){
-			String address = word;
-			if(address.length()<8){
-				counter=0;
+		String tword = trim(word);
+		if(trigger ){
+			String[] retStr =skipWords;//{"of","is","for"};
+			for(String str : retStr){
+				if(tword.toLowerCase().equals(str)){
+					skiped = true;
+					return;
+				}
+			}
+		}
+		if(trigger){
+			try{
+				if(!skiped){
+					trigger = false;
+					return;
+				}
+				float f = Float.parseFloat(tword);
+				data.setAmount(f);
+			}catch(Exception e){
 				trigger = false;
+				skiped = false;
 				return;
 			}
-			data.setFrom(address);
-			logger.info("address = "+word);
+
+			logger.info("amount = "+tword);
 			done = true;
 			return;
 		}
-		if(trigger){
-			counter+=1;
-			return;
-		}
-		String tword = trim(word);
-		String[] retStr =acceptWords;
+		tword = tword.toLowerCase();
+		String[] retStr =acceptWords;//{"amount","balance","total"};
 		for(String str : retStr){
 			if(tword.equals(str)){
 				trigger = true;
@@ -48,6 +60,7 @@ public class AddressWordParser implements WordParserInterface {
 			}
 		}
 		trigger = false;
+		skiped = false;
 	}
 
     public String trim(String s) {

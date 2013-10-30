@@ -15,13 +15,17 @@ public class DateWordParser implements WordParserInterface {
 	private String[] acceptWords = null;
 	private String buffer = "";
 	private int counter =0;
-	boolean trigger = false;
-	boolean done = false;
-	private static SimpleDateFormat  format = new SimpleDateFormat("EEEEEEEEEEE MMMMMMMMMMMM dd yyyy",Locale.US);
+	private boolean trigger = false;
+	private boolean done = false;
+	private int bufferCounter =4;
 	
-	public DateWordParser(String[] skipWords,String[] acceptWords){
+	private SimpleDateFormat  format = null;//new SimpleDateFormat("EEEEEEEEEEE MMMMMMMMMMMM dd yyyy",Locale.US);
+	
+	public DateWordParser(String[] skipWords,String[] acceptWords,String format,int bufferCounter){
 		this.acceptWords = acceptWords;
 		this.skipWords = skipWords;
+		this.format = new SimpleDateFormat(format,Locale.US);
+		this.bufferCounter = bufferCounter;
 	}
 
 	public void parse(String word, UserData data) {
@@ -41,7 +45,7 @@ public class DateWordParser implements WordParserInterface {
 			buffer = buffer + tword+" ";
 			
 			counter++;
-			if(counter ==4){
+			if(counter == bufferCounter){
 				try{
 					buffer = buffer.trim();
 					Date date = format.parse(buffer);

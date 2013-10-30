@@ -33,7 +33,12 @@ public class AmountWordParser implements WordParserInterface {
 		}
 		if(trigger){
 			try{
-				float f = Float.parseFloat(tword);
+				String[] ss= tword.split(",");
+				String x ="";
+				for(String s:ss){
+					x=x+s;
+				}
+				float f = Float.parseFloat(x);
 				data.setAmount(f);
 			}catch(Exception e){
 				trigger = false;
