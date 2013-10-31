@@ -42,12 +42,16 @@
 			<th>From</th>
 			<th>Date</th>
 			<th>Amount</th>
+			<th>Type</th>
+			<th>receipt #</th>
 		</tr>
 		<c:forEach items="${report}" var="report" varStatus="status">
 			<tr>
 				<td>${report.from}</td>
 				<td>${report.formatedDate}</td>
 				<td>${report.amount}</td>
+				<td>${report.type}</td>
+				<td>${report.duplicationCounter}</td>
 			</tr>
 		</c:forEach>
 		<tr>

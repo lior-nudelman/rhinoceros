@@ -1,5 +1,7 @@
 package com.rhino.fe.controller;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -40,11 +42,19 @@ public class MainController {
 		UserDataDAO userDataDAO = new UserDataDAO();
 		userDataDAO.setSession(session);
 		List<UserData> events = userDataDAO.getByUserID(userID);
+		HashMap<UserData,UserData> data = new HashMap<UserData,UserData>();
 		float total = 0;
 		for(UserData e: events){
-			total += e.getAmount();
+			UserData tmp = data.get(e);
+			if(tmp == null){
+				data.put(e, e);
+				total += e.getAmount();
+			}else{
+				tmp.setDuplicationCounter(tmp.getDuplicationCounter()+1);
+			}
+			
 		}
-		model.addAttribute("report", events);
+		model.addAttribute("report", data.keySet());
 		model.addAttribute("total", total);
 		tx.commit();
 		session.close();

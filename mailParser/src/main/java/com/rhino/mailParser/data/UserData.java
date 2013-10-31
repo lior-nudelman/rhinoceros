@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="USER_DATA")
@@ -28,7 +29,8 @@ public class UserData {
 	long date=-1;
 	@Column(name="TRANSACTION_TYPE")
 	String type = null;
-	
+	@Transient
+	int duplicationCounter = 1;
 	
 	public String getUserID() {
 		return userID;
@@ -81,4 +83,41 @@ public class UserData {
 	public String getFormatedDate(){
 		return format.format(new Date(getDate()));
 	}
+	public int getDuplicationCounter() {
+		return duplicationCounter;
+	}
+	public void setDuplicationCounter(int duplicationCounter) {
+		this.duplicationCounter = duplicationCounter;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Float.floatToIntBits(amount);
+		result = prime * result + (int) (date ^ (date >>> 32));
+		result = prime * result + ((from == null) ? 0 : from.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserData other = (UserData) obj;
+		if (Float.floatToIntBits(amount) != Float.floatToIntBits(other.amount))
+			return false;
+		if (date != other.date)
+			return false;
+		if (from == null) {
+			if (other.from != null)
+				return false;
+		} else if (!from.equals(other.from))
+			return false;
+		return true;
+	}
+	
+	
 }
