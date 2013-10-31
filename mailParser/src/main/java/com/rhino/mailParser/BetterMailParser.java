@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
@@ -16,6 +17,7 @@ import com.rhino.mailParser.betterParser.AmountWordParser;
 import com.rhino.mailParser.betterParser.AmountWordParserMustHaveSkipWord;
 import com.rhino.mailParser.betterParser.DateWordParser;
 import com.rhino.mailParser.betterParser.WordParserInterface;
+import com.rhino.mailParser.data.DataTypeDAO;
 import com.rhino.mailParser.data.UserData;
 import com.rhino.mailParser.data.UserDataDAO;
 
@@ -23,10 +25,13 @@ public class BetterMailParser  implements MailParserInterface{
 
 	private static Logger logger = Logger.getLogger(BetterMailParser.class);
 	private SessionFactory sessionFactory;
+	private static Map<String,String> dataType = null;
+	private Object SYNC_OBJ = new Object();
 	
 	//The user is the email address
 	public void readAccount(String host, String user, String password,
 			String path, Date date,String sysUser) throws Exception {
+		readMap();
 		path = path + "/" + sysUser +"/"+ user + "/" + "Inbox";
 		File file = new File(path); // need to be recursive
 		if (!file.exists()) {
@@ -43,7 +48,12 @@ public class BetterMailParser  implements MailParserInterface{
 			logger.error("The path " + path + " contain 0 files");
 			return;
 		}
-		
+		Session session = sessionFactory.openSession();
+		UserDataDAO userDataDAO = new UserDataDAO();
+		userDataDAO.setSession(session);
+		Transaction tx = session.beginTransaction();
+		tx.begin();
+
 		for (File f : files) {
 			logger.info("File: " + f.getAbsolutePath());
 			LinkedList<WordParserInterface> parsers = new LinkedList<WordParserInterface>();
@@ -79,19 +89,18 @@ public class BetterMailParser  implements MailParserInterface{
 			}
 			if(data.getAmount()>-1){
 				try{
-					Session session = sessionFactory.openSession();
-					UserDataDAO userDataDAO = new UserDataDAO();
-					userDataDAO.setSession(session);
-					Transaction tx = session.beginTransaction();
-					tx.begin();
+					System.out.println(dataType);
+					System.out.println(data.getFrom());
+					String type = dataType.get(data.getFrom());
+					data.setType(type);
 					userDataDAO.save(data);
-					tx.commit();
-					session.close();
 				}catch(Exception e){
 					logger.error(e,e);
 				}
 			}
 		}
+		tx.commit();
+		session.close();
 	}
 
 	public LinkedList<String> split(String word){
@@ -119,6 +128,25 @@ public class BetterMailParser  implements MailParserInterface{
 			tmp.add(word);
 		}
 		return tmp;
+	}
+	
+	private void readMap(){
+		if (dataType !=null){
+			return;
+		}
+		synchronized (SYNC_OBJ) {
+			if (dataType !=null){
+				return;
+			}
+			Session session = sessionFactory.openSession();
+			DataTypeDAO userDataDAO = new DataTypeDAO();
+			userDataDAO.setSession(session);
+			Transaction tx = session.beginTransaction();
+			tx.begin();
+			dataType = userDataDAO.getTypeMap();
+			tx.commit();
+			session.close();
+		}
 	}
 	
 	public SessionFactory getSessionFactory() {
