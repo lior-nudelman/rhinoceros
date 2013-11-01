@@ -11,6 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+/**
+ * @author hagar
+ *
+ */
 @Entity
 @Table(name="USER_DATA")
 public class UserData {
@@ -29,6 +33,13 @@ public class UserData {
 	long date=-1;
 	@Column(name="TRANSACTION_TYPE")
 	String type = null;
+	@Column(name="MESSAGE_INDEX")
+	int messageIndex = 0;
+	@Column(name="MESSAGE_TITLE")
+	String messageTitle = null;
+	@Column(name="MESSAGE_FROM")
+	String messageFrom = null;	
+	
 	@Transient
 	int duplicationCounter = 1;
 	
@@ -74,6 +85,25 @@ public class UserData {
 		this.type = type;
 	}
 	
+	public int getMessageIndex() {
+		return messageIndex;
+	}
+	public void setMessageIndex(int messageIndex) {
+		this.messageIndex = messageIndex;
+	}
+	public String getMessageTitle() {
+		return messageTitle;
+	}
+	public void setMessageTitle(String messageTitle) {
+		this.messageTitle = messageTitle;
+	}
+	
+	public String getMessageFrom() {
+		return messageFrom;
+	}
+	public void setMessageFrom(String messageFrom) {
+		this.messageFrom = messageFrom;
+	}
 	@Override
 	public String toString() {
 		return "ParserData [userID=" + userID + ", from=" + from + ", amount="

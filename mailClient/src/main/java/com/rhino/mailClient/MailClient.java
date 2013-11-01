@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
+import javax.mail.Address;
 import javax.mail.BodyPart;
 import javax.mail.Folder;
 import javax.mail.Message;
@@ -18,6 +19,7 @@ import javax.mail.Multipart;
 import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
+import javax.mail.internet.InternetAddress;
 import javax.mail.search.ComparisonTerm;
 import javax.mail.search.ReceivedDateTerm;
 import javax.mail.search.SearchTerm;
@@ -68,11 +70,20 @@ public class MailClient implements MailClientInterface {
 
 				int index = message.getMessageNumber();
 				String subject = message.getSubject();
-				
+				Address[] address = message.getFrom();
+				String phisicalFromAddress ="";
+				if(address.length>0){
+					InternetAddress iaddress =(InternetAddress)address[0];
+					phisicalFromAddress = iaddress.getAddress();
+				}
+				String meassageIndex = ""+message.getMessageNumber();
 				Multipart multipart = (Multipart) message.getContent();
 
 				StringBuilder sb = new StringBuilder();
-				sb.append("<SUBJECT>\n").append(subject).append("\n</SUBJECT>\n<BODY>\n");
+				sb.append(subject).append("\n");
+				sb.append(phisicalFromAddress).append("\n");
+				sb.append(meassageIndex).append("\n");
+				
 				for (int i = 0; i < multipart.getCount(); i++) {
 					BodyPart bodyPart = multipart.getBodyPart(i);
 					savePart(bodyPart,sb,path + "/" + id + "-" + index);

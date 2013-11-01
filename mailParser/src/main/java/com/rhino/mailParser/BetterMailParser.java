@@ -55,6 +55,10 @@ public class BetterMailParser  implements MailParserInterface{
 		tx.begin();
 
 		for (File f : files) {
+			if(!f.getName().endsWith("txt")){
+				logger.info("cannot parse file "+f.getName());
+				continue;
+			}
 			logger.info("File: " + f.getAbsolutePath());
 			LinkedList<WordParserInterface> parsers = new LinkedList<WordParserInterface>();
 			parsers.add(new AmountWordParser(new String[]{"of","is","for","us"},new String[]{"amount","balance","total","payment"}));
@@ -66,6 +70,12 @@ public class BetterMailParser  implements MailParserInterface{
 			data.setUserID(sysUser);
 			try {
 				BufferedReader br = new BufferedReader(new FileReader(f));
+				String subject = br.readLine();
+				String from = br.readLine();
+				String messageId = br.readLine();
+				data.setMessageFrom(from);
+				data.setMessageTitle(subject);
+				data.setMessageIndex(Integer.parseInt(messageId));
 				String line;
 				while ((line = br.readLine()) != null) {
 					line = line.replaceAll("<", " ");
@@ -89,10 +99,11 @@ public class BetterMailParser  implements MailParserInterface{
 			}
 			if(data.getAmount()>-1){
 				try{
-					System.out.println(dataType);
-					System.out.println(data.getFrom());
 					String type = dataType.get(data.getFrom());
 					data.setType(type);
+					if(data.getFrom().equals("NULL")){
+						data.setFrom(data.getMessageFrom());
+					}
 					userDataDAO.save(data);
 				}catch(Exception e){
 					logger.error(e,e);
