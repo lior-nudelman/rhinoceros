@@ -84,7 +84,7 @@ body {
 				 */
 
 				out.println(helper.getUserInfoJson(request.getParameter("code")));
-
+			   
 				out.println("</pre>");
 			}
 		%>

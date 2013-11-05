@@ -27,8 +27,21 @@ import javax.mail.search.SearchTerm;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
+import com.rhino.mailClient.oauth2.OAuth2Authenticator;
+import com.sun.mail.imap.IMAPStore;
+
 public class MailClient implements MailClientInterface {
 	private static Logger logger = Logger.getLogger(MailClient.class);
+
+	public void readAccount(String email,String oauthToken, String path, Date date,String sysUser) throws Exception {
+		Properties props = System.getProperties();
+		props.setProperty("mail.store.protocol", "imaps");
+		
+		IMAPStore imapStore = OAuth2Authenticator.connectToImap("imap.gmail.com", 993, email, oauthToken, true);
+		Folder inbox = imapStore.getFolder("Inbox");// need to read all folders
+
+		readFolder(inbox, path + "/" + sysUser +"/"+ email + "/", date);
+	}
 
 	public void readAccount(String host, String user, String password,
 			String path, Date date,String sysUser) throws MessagingException {

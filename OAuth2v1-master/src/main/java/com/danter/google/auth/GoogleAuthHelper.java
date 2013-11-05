@@ -37,7 +37,7 @@ public final class GoogleAuthHelper {
 	private static final String CALLBACK_URI = "http://localhost:8080/OAuth2v1/index.jsp";
 	
 	// start google authentication constants
-	private static final Iterable<String> SCOPE = Arrays.asList("https://www.googleapis.com/auth/userinfo.profile;https://www.googleapis.com/auth/userinfo.email".split(";"));
+	private static final Iterable<String> SCOPE = Arrays.asList("https://mail.google.com/;https://www.googleapis.com/auth/userinfo.profile;https://www.googleapis.com/auth/userinfo.email".split(";"));
 	private static final String USER_INFO_URL = "https://www.googleapis.com/oauth2/v1/userinfo";
 	private static final JsonFactory JSON_FACTORY = new JacksonFactory();
 	private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
@@ -93,6 +93,8 @@ public final class GoogleAuthHelper {
 	public String getUserInfoJson(final String authCode) throws IOException {
 
 		final GoogleTokenResponse response = flow.newTokenRequest(authCode).setRedirectUri(CALLBACK_URI).execute();
+		System.out.println("access: "+response.getAccessToken());
+		System.out.println("refresh: "+response.getRefreshToken()); 
 		final Credential credential = flow.createAndStoreCredential(response, null);
 		final HttpRequestFactory requestFactory = HTTP_TRANSPORT.createRequestFactory(credential);
 		// Make an authenticated request

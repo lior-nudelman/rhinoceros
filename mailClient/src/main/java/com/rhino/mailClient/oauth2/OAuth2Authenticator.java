@@ -37,7 +37,10 @@ import javax.mail.URLName;
 public class OAuth2Authenticator {
   private static final Logger logger =
       Logger.getLogger(OAuth2Authenticator.class.getName());
-
+  
+  static{
+	  Security.addProvider(new OAuth2Provider());
+  }
   public static final class OAuth2Provider extends Provider {
     private static final long serialVersionUID = 1L;
 
@@ -132,15 +135,10 @@ public class OAuth2Authenticator {
    * Authenticates to IMAP with parameters passed in on the commandline.
    */
   public static void main(String args[]) throws Exception {
-    if (args.length != 2) {
-      System.err.println(
-          "Usage: OAuth2Authenticator <email> <oauthToken>");
-      return;
-    }
-    String email = args[0];
-    String oauthToken = args[1];
+    String email = "rhino.test.email@gmail.com";
+    String oauthToken = "ya29.AHES6ZSdMCCDOzG-fUre7n0p46WGZZzAULGleYNe58s-Gus";
 
-    initialize();
+    //initialize();
 
     IMAPStore imapStore = connectToImap("imap.gmail.com",
                                         993,
