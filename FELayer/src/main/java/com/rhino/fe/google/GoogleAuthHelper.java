@@ -1,9 +1,6 @@
-package com.danter.google.auth;
+package com.rhino.fe.google;
 
 import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.auth.oauth2.CredentialStore;
-import com.google.api.client.auth.oauth2.CredentialStoreRefreshListener;
-import com.google.api.client.auth.oauth2.MemoryCredentialStore;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
@@ -22,6 +19,7 @@ import com.google.api.client.json.jackson.JacksonFactory;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * A helper class for Google's OAuth2 authentication API.
@@ -42,10 +40,10 @@ public final class GoogleAuthHelper {
 	/**
 	 * Callback URI that google will redirect to after successful authentication
 	 */
-	private static final String CALLBACK_URI = "http://localhost:8080/OAuth2v1/index.jsp";
+	private static final String CALLBACK_URI = "http://localhost:8080/FELayer/googleReg.do";
 	
 	// start google authentication constants
-	private static final Iterable<String> SCOPE = Arrays.asList("https://mail.google.com/;https://www.googleapis.com/auth/userinfo.profile;https://www.googleapis.com/auth/userinfo.email".split(";"));
+	private static final Collection<String> SCOPE = Arrays.asList("https://mail.google.com/;https://www.googleapis.com/auth/userinfo.profile;https://www.googleapis.com/auth/userinfo.email".split(";"));
 	private static final String USER_INFO_URL = "https://www.googleapis.com/oauth2/v1/userinfo";
 	private static final JsonFactory JSON_FACTORY = new JacksonFactory();
 	private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
@@ -94,6 +92,21 @@ public final class GoogleAuthHelper {
 		return stateToken;
 	}
 	
+	public String[] getUserToken(final String authCode) throws IOException {
+
+		final GoogleTokenResponse response = flow.newTokenRequest(authCode).setRedirectUri(CALLBACK_URI).execute();
+		String refresh = response.getRefreshToken();
+		final Credential credential = flow.createAndStoreCredential(response, null);
+
+		final HttpRequestFactory requestFactory = HTTP_TRANSPORT.createRequestFactory(credential);
+		// Make an authenticated request
+		final GenericUrl url = new GenericUrl(USER_INFO_URL);
+		final HttpRequest request = requestFactory.buildGetRequest(url);
+		request.getHeaders().setContentType("application/json");
+		final String jsonIdentity = request.execute().parseAsString();
+
+		return new String[]{refresh,jsonIdentity};
+	}
 	/**
 	 * Expects an Authentication Code, and makes an authenticated request for the user's profile information
 	 * @return JSON formatted user profile information

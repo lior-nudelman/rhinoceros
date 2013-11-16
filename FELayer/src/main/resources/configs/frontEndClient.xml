@@ -12,6 +12,8 @@
 
 	<bean class="com.rhino.fe.validetor.UserValidetor" />
 
+	<bean class="com.rhino.fe.validetor.UserNoEmailValidator" />
+
 	<bean class="com.rhino.userAttributesServic.UserManagerImpl">
 			<property name="sessionFactory" ref="sessionFactory" />
 	</bean>

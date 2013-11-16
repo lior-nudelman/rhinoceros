@@ -240,10 +240,10 @@
 			<version>${google-api-client.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.google.api-client</groupId>
-			<artifactId>google-api-client-jackson2</artifactId>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client-jackson</artifactId>
 			<version>${google-api-client.version}</version>
-		</dependency>
+		</dependency>		
 
 		<!-- GRAPH -->
 		<dependency>

@@ -9,6 +9,7 @@ public enum UserAttributeType {
     FOLDER_PATH(1050,"folderPath"),
     MAIL_USERNAME(2000,"mail_username"),
     MAIL_PASSWORD(2010,"mail_password"),
+    MAIL_TOKEN(2010,"mail_token"),
     DATE(3000,"date"),
     USER_PASSWORD(4000,"user_password"),
     ERROR(8000,"error"),

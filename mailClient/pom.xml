@@ -140,6 +140,32 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
 		</dependency>
+		<!-- GOOGLE -->
+		<dependency>
+			<groupId>com.google.appengine</groupId>
+			<artifactId>appengine-api-1.0-sdk</artifactId>
+			<version>1.8.7</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-calendar</artifactId>
+			<version>v3-rev59-1.17.0-rc</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.api-client</groupId>
+			<artifactId>google-api-client-appengine</artifactId>
+			<version>1.17.0-rc</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.api-client</groupId>
+			<artifactId>google-api-client-jackson2</artifactId>
+			<version>1.17.0-rc</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client-jackson</artifactId>
+			<version>1.17.0-rc</version>
+		</dependency>		
 	</dependencies>
 	<!-- Shared version number properties -->
 	<properties>

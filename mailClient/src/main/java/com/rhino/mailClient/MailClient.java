@@ -27,13 +27,33 @@ import javax.mail.search.SearchTerm;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson.JacksonFactory;
 import com.rhino.mailClient.oauth2.OAuth2Authenticator;
 import com.sun.mail.imap.IMAPStore;
 
 public class MailClient implements MailClientInterface {
 	private static Logger logger = Logger.getLogger(MailClient.class);
 
+	private static final String CLIENT_ID = "159872143583.apps.googleusercontent.com";
+	private static final String CLIENT_SECRET = "x2hF3tBFnfmlzELIRUlmGWdv";
+
+	private static final JsonFactory JSON_FACTORY = new JacksonFactory();
+	private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
+
 	public void readAccount(String email,String oauthToken, String path, Date date,String sysUser) throws Exception {
+		GoogleCredential credentials = new GoogleCredential.Builder()
+	    .setClientSecrets(CLIENT_ID, CLIENT_SECRET)
+	    .setJsonFactory(JSON_FACTORY).setTransport(HTTP_TRANSPORT).build()
+	    .setRefreshToken(oauthToken).setAccessToken(null);	
+		credentials.refreshToken();
+		oauthToken=credentials.getAccessToken();
+		logger.info("Refresh token: "+oauthToken);
+
+		
 		Properties props = System.getProperties();
 		props.setProperty("mail.store.protocol", "imaps");
 		

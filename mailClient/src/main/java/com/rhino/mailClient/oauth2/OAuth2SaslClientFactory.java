@@ -17,8 +17,7 @@ package com.rhino.mailClient.oauth2;
 
 import java.util.Map;
 
-import java.util.logging.Logger;
-
+import org.apache.log4j.Logger;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.sasl.SaslClient;
 import javax.security.sasl.SaslClientFactory;
@@ -31,7 +30,7 @@ import javax.security.sasl.SaslClientFactory;
  */
 public class OAuth2SaslClientFactory implements SaslClientFactory {
   private static final Logger logger =
-      Logger.getLogger(OAuth2SaslClientFactory.class.getName());
+      Logger.getLogger(OAuth2SaslClientFactory.class);
 
   public static final String OAUTH_TOKEN_PROP =
       "mail.imaps.sasl.mechanisms.oauth2.oauthToken";

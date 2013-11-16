@@ -11,6 +11,9 @@
 	<http pattern="/loginForm.jsp" security="none">	</http>
 	<http pattern="/resources/**" security="none">	</http>
 	<http pattern="/userReg*" security="none">	</http>
+	<http pattern="/userGoogleReg*" security="none">	</http>
+	<http pattern="/googleReg*" security="none">	</http>
+	<http pattern="/userRegNoEmail*" security="none">	</http>
 	<http auto-config="true" use-expressions="true">
 		
 		<intercept-url pattern="/**" access="hasRole('ROLE_USER')" />

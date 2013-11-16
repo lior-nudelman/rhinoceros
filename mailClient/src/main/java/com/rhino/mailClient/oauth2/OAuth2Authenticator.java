@@ -22,7 +22,7 @@ import com.sun.mail.smtp.SMTPTransport;
 import java.security.Provider;
 import java.security.Security;
 import java.util.Properties;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import javax.mail.Session;
 import javax.mail.URLName;
@@ -36,7 +36,7 @@ import javax.mail.URLName;
  */
 public class OAuth2Authenticator {
   private static final Logger logger =
-      Logger.getLogger(OAuth2Authenticator.class.getName());
+      Logger.getLogger(OAuth2Authenticator.class);
   
   static{
 	  Security.addProvider(new OAuth2Provider());

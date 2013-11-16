@@ -25,13 +25,18 @@ public class MailClientJobProcessorImpl implements JobProcessorInterface {
 		String password = attributes.get(UserAttributeType.MAIL_PASSWORD);
 		String path = attributes.get(UserAttributeType.FOLDER_PATH);
 		String dateS = attributes.get(UserAttributeType.DATE);
+		String token = attributes.get(UserAttributeType.MAIL_TOKEN);
 		Date date = new Date(Long.parseLong(dateS));
 		if(veriteData != null && veriteData instanceof Date){
 			date = (Date)veriteData;
 		}
 		try {
-			mailClient.readAccount(host, user, password, path, date,mainVeriteID);
-		} catch (MessagingException e) {
+			if(token != null){
+					mailClient.readAccount(user,token, path,date,mainVeriteID);
+			}else{
+				mailClient.readAccount(host, user, password, path, date,mainVeriteID);
+			}
+		} catch (Exception e) {
 			logger.error(e,e);
 		}
 		return new Date();

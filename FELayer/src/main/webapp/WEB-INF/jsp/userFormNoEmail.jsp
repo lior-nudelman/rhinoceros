@@ -1,3 +1,6 @@
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
@@ -28,27 +31,44 @@
 <script src="<c:url value="resources/js/jquery-1.10.2.min.js" />"></script>
 <script src="<c:url value="resources/js/modernizr-2.6.2.min.js"/>"></script>
 </head>
+
 <body>
-<form name="login_form" action="<c:url value='j_spring_security_check'/>" method="POST">
+
+
+
+<form:form method="POST" commandName="userRegNoEmail" action="userRegNoEmail.do">
+
+<form:errors path="*" cssClass="errorblock" element="div"/>
+
+<table>
 <img src="<c:url value="/resources/images/logoSmall.png"/>">
-<div class="row-fluid">
-<div class="span4">
-<h1>Welcome !</h1>
-<fieldset id="user-details"><label for="j_username">User Name : <span class="required">*</span></label> <input id="j_username" type="text" name="j_username" value="" /> <label for="password">Password: <span class="required">*</span> </label> <input id="j_password" type="password" name="j_password" value="" />
-<input class="submit btn" type="submit" name="submit" value="Login" /></fieldset>
-</div>
-<div class="span7 offset1 well about-well">
-<h2>Sign Up Now !</h2>
-<ul class="unstyled" style="text-align: justify;">
-	<li><em class="icon-tags"></em> <small> Find out how much you pay  !</small></li>
-	<li><em class="icon-tags"></em> <small> Download our Mobile App and help us in getting the latest bank debit !</small></li>
-	<li><em class="icon-tags"></em> <small> Create your own bank report ! </small></li>
-	<li><em class="icon-tags"></em> <small> Find out how much you can save over the month before only! </small></li>
-</ul>
-<a class="btn" href="userReg.do">Register »</a>
-<a class="btn" href="userGoogleReg.do">Register with Google»</a>
-</div>
-</div>
-</form>
+
+<h2>Rhino Email service registration</h2>
+<tr>
+<td>UserName : </td>
+<td><form:input path="userName" /></td>
+<td><form:errors path="userName" cssClass="error" /></td>
+</tr>
+<tr>
+<td>Password : </td>
+<td><form:password path="password" /></td>
+<td><form:errors path="password" cssClass="error" /></td>
+</tr>
+<tr>
+<td>Confirm Password : </td>
+<td><form:password path="confirmPassword" /></td>
+<td><form:errors path="confirmPassword" cssClass="error" /></td>
+</tr>
+<tr>
+<td>Email Address : ${email} </td>
+
+<form:hidden path="secretValue" />
+<form:hidden path="address" />
+<tr>
+<td colspan="3"><input type="submit" /></td>
+</tr>
+</table>
+</form:form>
+
 </body>
 </html>
