@@ -44,7 +44,7 @@ public class UserNoEmailController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String processSubmit(@ModelAttribute("userRegNoEmail") GUIUserModel user,
+	public String processSubmit(ModelMap model,@ModelAttribute("userRegNoEmail") GUIUserModel user,
 			BindingResult result, SessionStatus status) {
 		if (user == null) {
 			return "userFormNoEmail";
@@ -80,6 +80,7 @@ public class UserNoEmailController {
 		map.put(UserAttributeType.USER_PASSWORD, u.getPassword());
 		userManagerInterface.addUser(dbUser);
 
+		model.addAttribute("userReg", user);
 		return "userSuccess";
 
 	}
@@ -99,7 +100,7 @@ public class UserNoEmailController {
 		
 		// command object
 		model.addAttribute("userRegNoEmail", user);
-		
+		model.addAttribute("email", email);
 		// return form view
 		return "userFormNoEmail";
 	}
