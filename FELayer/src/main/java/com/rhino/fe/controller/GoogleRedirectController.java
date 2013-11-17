@@ -1,5 +1,6 @@
 package com.rhino.fe.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +14,8 @@ import com.rhino.fe.google.GoogleAuthHelper;
 @RequestMapping("/userGoogleReg")
 public class GoogleRedirectController {
 
-	private GoogleAuthHelper googleAuthHelper = new GoogleAuthHelper();
+	@Autowired
+	private GoogleAuthHelper googleAuthHelper ;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView processSubmit(ModelMap model){
