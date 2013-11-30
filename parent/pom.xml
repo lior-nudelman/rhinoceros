@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.rhinos.parent</groupId>
+  <groupId>com.rhino</groupId>
   <artifactId>econome-parent</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
@@ -10,8 +10,11 @@
   <modules>
   	<module>../mailClient</module>
   	<module>../mailParser</module>
+  	<module>../UserAttributesService</module>
   	<module>../taskManager</module>
-	<module>../UserAttributesService</module>
-	
+	<module>../FELayer</module>
+	<module>../mailClientLayer</module>
+	<module>../UserAttributesServiceLayer</module>
+	<module>../taskManagerLayer</module>
   </modules>
 </project>
