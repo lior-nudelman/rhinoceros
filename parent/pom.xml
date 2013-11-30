@@ -12,5 +12,6 @@
   	<module>../mailParser</module>
   	<module>../taskManager</module>
 	<module>../UserAttributesService</module>
+	
   </modules>
 </project>
