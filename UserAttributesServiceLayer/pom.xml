@@ -152,7 +152,7 @@
 	</properties>
 
 	<build>
-		<finalName>JavaServerFaces</finalName>
+		<finalName>UserAttributesServiceLayer</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

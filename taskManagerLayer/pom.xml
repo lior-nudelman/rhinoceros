@@ -157,7 +157,7 @@
 	</properties>
 
 	<build>
-		<finalName>JavaServerFaces</finalName>
+		<finalName>taskManagerLayer</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
