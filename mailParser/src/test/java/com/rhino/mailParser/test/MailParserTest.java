@@ -1,6 +1,5 @@
 package com.rhino.mailParser.test;
 
-import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -12,6 +11,7 @@ public class MailParserTest {
 
 	@Test
 	public void test() throws Exception {
+		@SuppressWarnings("resource")
 		ApplicationContext appCtx = new ClassPathXmlApplicationContext("classpath:configs/mailParser.xml");
 		//MailParser parser = appCtx.getBean("mailParser",MailParser.class);
 		BetterMailParser parser = appCtx.getBean("betterMailParser",BetterMailParser.class);

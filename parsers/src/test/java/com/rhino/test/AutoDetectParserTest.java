@@ -1,6 +1,5 @@
 package com.rhino.test;
 
-import static org.junit.Assert.*;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;

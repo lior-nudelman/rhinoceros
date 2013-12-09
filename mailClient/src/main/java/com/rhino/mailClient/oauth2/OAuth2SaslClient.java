@@ -16,12 +16,10 @@
 package com.rhino.mailClient.oauth2;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.NameCallback;
-import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.sasl.SaslClient;
 import javax.security.sasl.SaslException;
@@ -31,7 +29,7 @@ import javax.security.sasl.SaslException;
  * An OAuth2 implementation of SaslClient.
  */
 class OAuth2SaslClient implements SaslClient {
-  private static final Logger logger = Logger.getLogger(OAuth2SaslClient.class);
+  //private static final Logger logger = Logger.getLogger(OAuth2SaslClient.class);
 
   private final String oauthToken;
   private final CallbackHandler callbackHandler;

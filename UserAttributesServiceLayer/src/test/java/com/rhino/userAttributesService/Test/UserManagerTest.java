@@ -1,6 +1,5 @@
 package com.rhino.userAttributesService.Test;
 
-import static org.junit.Assert.*;
 
 import java.util.Map;
 
@@ -17,6 +16,7 @@ public class UserManagerTest {
 
 	@Test
 	public void test() {
+		@SuppressWarnings("resource")
 		ApplicationContext appCtx = new ClassPathXmlApplicationContext("classpath:configs/userAttributesServiceLayer.xml");
 		UserManagerInterface manager = appCtx.getBean("userManager",UserManagerImpl.class);
 		UserDataImpl user = new UserDataImpl();

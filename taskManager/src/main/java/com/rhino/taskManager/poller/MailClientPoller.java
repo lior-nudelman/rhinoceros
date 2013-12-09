@@ -9,6 +9,7 @@ public class MailClientPoller extends AbstractPoller {
 	private final String type = "MAIL";
 	@Override
 	public String getType() {
+		logger.debug("type is "+type);
 		return type;
 	}
 

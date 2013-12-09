@@ -22,7 +22,7 @@ import com.sun.mail.smtp.SMTPTransport;
 import java.security.Provider;
 import java.security.Security;
 import java.util.Properties;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 
 import javax.mail.Session;
 import javax.mail.URLName;
@@ -35,8 +35,7 @@ import javax.mail.URLName;
  * OAuth2 SASL provider.
  */
 public class OAuth2Authenticator {
-  private static final Logger logger =
-      Logger.getLogger(OAuth2Authenticator.class);
+  //private static final Logger logger = Logger.getLogger(OAuth2Authenticator.class);
   
   static{
 	  Security.addProvider(new OAuth2Provider());
@@ -152,5 +151,6 @@ public class OAuth2Authenticator {
                                                 oauthToken,
                                                 true);
     System.out.println("Successfully authenticated to SMTP.");
+    System.out.println(imapStore+" "+smtpTransport);
   }
 }

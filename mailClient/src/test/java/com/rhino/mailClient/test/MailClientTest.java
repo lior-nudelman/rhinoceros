@@ -1,10 +1,6 @@
 package com.rhino.mailClient.test;
 
-import static org.junit.Assert.*;
-
 import java.util.Date;
-
-import javax.mail.MessagingException;
 
 import org.junit.Test;
 

@@ -3,7 +3,6 @@ package com.rhino.mailClient.poller;
 import java.util.Date;
 import java.util.Map;
 
-import javax.mail.MessagingException;
 
 import org.apache.log4j.Logger;
 

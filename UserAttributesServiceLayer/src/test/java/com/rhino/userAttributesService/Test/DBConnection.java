@@ -1,6 +1,5 @@
 package com.rhino.userAttributesService.Test;
 
-import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -23,6 +22,7 @@ public class DBConnection {
 		String sql = "select v from UserStatus v where v.dataSourceType = 'MAIL' and v.onProcess = false order by v.date";
 		//String sql = "select v from UserStatus v , UserStatus v1 where v.dataSourceType='PARSER' and v1.dataSourceType='MAIL' and v.userID=v1.userID and v.date>v1.date and v1.onProcess=false order by v.date";
 
+		@SuppressWarnings("resource")
 		ApplicationContext appCtx = new ClassPathXmlApplicationContext("classpath:configs/userAttributesServiceLayer.xml");
 		UserAttributesServiceManagerImpl service = appCtx.getBean("userAttributesServiceManager",UserAttributesServiceManagerImpl.class);
 		Collection<UserDataInterface> job = service.getNextJob(sql, 10);

@@ -8,7 +8,7 @@ import com.rhino.fe.model.GUIUserModel;
 
 public class UserValidetor implements Validator{
 
-	public boolean supports(Class clazz) {
+	public boolean supports(@SuppressWarnings("rawtypes") Class clazz) {
 		//just validate the Customer instances
 		return GUIUserModel.class.isAssignableFrom(clazz);
 
@@ -18,7 +18,6 @@ public class UserValidetor implements Validator{
 		
 		GUIUserModel cust = (GUIUserModel)target;
 		if(cust == null){
-			cust.setFirstTime(true);
 			return;
 		}
 		if(cust.getPassword() == null || cust.getConfirmPassword() == null ){

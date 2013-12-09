@@ -1,14 +1,12 @@
 package com.rhino.mailParser.betterParser;
 
 import org.apache.log4j.Logger;
-import org.hibernate.engine.TwoPhaseLoad;
 
 import com.rhino.mailParser.data.UserData;
 
 public class AddressWordParser implements WordParserInterface {
 
 	private static Logger logger = Logger.getLogger(AddressWordParser.class);
-	private String[] skipWords = null;
 	private String[] acceptWords = null;
 
 	boolean trigger = false;
@@ -16,7 +14,6 @@ public class AddressWordParser implements WordParserInterface {
 	int counter =0;
 	public AddressWordParser(String[] skipWords,String[] acceptWords){
 		this.acceptWords = acceptWords;
-		this.skipWords = skipWords;
 	}
 
 	public void parse(String word, UserData data) {
