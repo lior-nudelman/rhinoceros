@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,6 +20,7 @@ import com.rhino.fe.google.GoogleAuthHelper;
 @RequestMapping("/googleReg")
 public class GoogleController {
 
+	private static Logger logger = Logger.getLogger(GoogleController.class);
 	@Autowired
 	private GoogleAuthHelper googleAuthHelper;
 	
@@ -51,13 +53,12 @@ public class GoogleController {
 					email = ss[1].trim().substring(1,ss[1].lastIndexOf("\"")-1);
 				}
 			}
-			System.out.println(token);
-			System.out.println(email);
+			logger.info(token);
+			logger.info(email);
 			model.addAttribute("token", token);
 			model.addAttribute("email", email);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e,e);
 		}
 		RedirectView  redirect= new RedirectView("/userRegNoEmail.do", true);
 		

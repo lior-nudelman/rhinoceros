@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -42,7 +43,7 @@ import com.rhino.mailParser.data.UserDataDAO;
 public class ChartController {
 
 	private SessionFactory sessionFactory;
-	
+	private static Logger logger = Logger.getLogger(ChartController.class);
 	@Autowired
 	public ChartController(SessionFactory sessionFactory){
 		this.sessionFactory = sessionFactory;
@@ -57,7 +58,7 @@ public class ChartController {
 	public void getBarChartView(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
-		System.out.println("In Chart View Controller");
+		logger.info("In Chart View Controller");
 
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
@@ -112,7 +113,7 @@ public class ChartController {
 	@RequestMapping("/pieChart")
 	public void getPieChartView(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		System.out.println("In Chart View Controller");
+		logger.info("In Chart View Controller");
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String userID = auth.getName(); // get logged in username
@@ -145,7 +146,7 @@ public class ChartController {
 	@RequestMapping("/pieChartFrom")
 	public void getPieChartViewFrom(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		System.out.println("In Chart View Controller");
+		logger.info("In Chart View Controller");
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String userID = auth.getName(); // get logged in username
